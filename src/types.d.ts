@@ -15,3 +15,11 @@ export type TZDataRow = {
 export type TZData = Record<string, TZDataRow>;
 
 export type GeoData = FeatureCollection<Polygon | MultiPolygon>;
+
+type CurrencyDataRow = {
+  countryCode: string;
+  currencyCode: string;
+  capital: string;
+  continent: string;
+};
+export type CurrencyData = Record<string, CurrencyDataRow>;

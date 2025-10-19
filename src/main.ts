@@ -1,26 +1,34 @@
 // main.ts
 
 import tzlookup from "tz-lookup";
-import {
-  GOOGLE_MAPS_URL_1,
-  GOOGLE_MAPS_URL_2,
-  GOOGLE_MAPS_URL_3,
-} from "./constants";
+import { GOOGLE_MAPS_URL_2 } from "./constants";
 import { extractCoordinateFromUrl, getLocalCoordinates } from "./coordinates";
 import { fetchTzToCodesData } from "./timezone";
-import { countryCodeFromPoint } from "./geo";
-
-const externalCoord = extractCoordinateFromUrl(GOOGLE_MAPS_URL_2);
-const localCoord = await getLocalCoordinates();
-
-const externalTz = tzlookup(externalCoord.latitude, externalCoord.longitude);
-const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+import { fetchCctoCurrencyData, getCountryCodeFromPoint } from "./countries";
 
 const tzToCodesData = await fetchTzToCodesData();
-console.log("External Timezone:", tzToCodesData[externalTz].timezone);
-console.log("Local Timezone:", localTz);
+const ccToCurrencyData = await fetchCctoCurrencyData();
 
-const externalCc = await countryCodeFromPoint(externalCoord);
-const localCc = await countryCodeFromPoint(localCoord);
-console.log("External Country Code:", externalCc);
-console.log("Local Country Code:", localCc);
+const localCoord = await getLocalCoordinates();
+const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const localCc = await getCountryCodeFromPoint(localCoord);
+const localCurrency = ccToCurrencyData[localCc].currencyCode;
+
+console.log("Local Data:\n", {
+  coordinate: localCoord,
+  timezone: localTz,
+  countryCode: localCc,
+  currency: localCurrency,
+});
+
+const externalCoord = extractCoordinateFromUrl(GOOGLE_MAPS_URL_2);
+const externalTz = tzlookup(externalCoord.latitude, externalCoord.longitude);
+const externalCc = await getCountryCodeFromPoint(externalCoord);
+const externalCurrency = ccToCurrencyData[externalCc].currencyCode;
+
+console.log("\nExternal Data:\n", {
+  coordinate: externalCoord,
+  timezone: tzToCodesData[externalTz].timezone,
+  countryCode: externalCc,
+  currency: externalCurrency,
+});

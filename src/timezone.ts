@@ -1,9 +1,10 @@
 // timezone.ts
 
+import { POINT_TO_TZ_URL } from "./constants";
 import type { TZData, TZDataRow } from "./types";
 
 export async function fetchTzToCodesData(): Promise<TZData> {
-  const response = await fetch("./zone1970.tab");
+  const response = await fetch(POINT_TO_TZ_URL);
   const text = await response.text();
 
   const rows = text

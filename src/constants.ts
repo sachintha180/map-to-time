@@ -1,3 +1,5 @@
+// constants.ts
+
 export const GOOGLE_MAPS_URL_1 =
   "https://www.google.com/maps/place/Harvard+University/@42.3744407,-71.1208291,17z/data=!3m1!4b1!4m6!3m5!1s0x89e377427d7f0199:0x5937c65cee2427f0!8m2!3d42.3744368!4d-71.1182488!16zL20vMDNrc3k?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D";
 export const GOOGLE_MAPS_URL_2 =
