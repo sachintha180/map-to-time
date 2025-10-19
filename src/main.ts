@@ -2,16 +2,13 @@
 
 import tzlookup from "tz-lookup";
 import {
-  countryCodeFromPoint,
-  extractCoordinateFromUrl,
-  fetchTzToCodesData,
-  getLocalCoordinates,
-} from "./utils";
-import {
   GOOGLE_MAPS_URL_1,
   GOOGLE_MAPS_URL_2,
   GOOGLE_MAPS_URL_3,
 } from "./constants";
+import { extractCoordinateFromUrl, getLocalCoordinates } from "./coordinates";
+import { fetchTzToCodesData } from "./timezone";
+import { countryCodeFromPoint } from "./geo";
 
 const externalCoord = extractCoordinateFromUrl(GOOGLE_MAPS_URL_2);
 const localCoord = await getLocalCoordinates();
