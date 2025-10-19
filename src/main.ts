@@ -4,7 +4,8 @@ import tzlookup from "tz-lookup";
 import { GOOGLE_MAPS_URL_2 } from "./constants";
 import { extractCoordinateFromUrl, getLocalCoordinates } from "./coordinates";
 import { fetchTzToCodesData } from "./timezone";
-import { fetchCctoCurrencyData, getCountryCodeFromPoint } from "./countries";
+import { getCountryCodeFromPoint } from "./geo";
+import { fetchCctoCurrencyData, fetchConversionRate } from "./currency";
 
 const tzToCodesData = await fetchTzToCodesData();
 const ccToCurrencyData = await fetchCctoCurrencyData();
@@ -32,3 +33,6 @@ console.log("\nExternal Data:\n", {
   countryCode: externalCc,
   currency: externalCurrency,
 });
+
+const currencyData = await fetchConversionRate(localCurrency, externalCurrency);
+console.log("\nCurrency Data:\n", currencyData);

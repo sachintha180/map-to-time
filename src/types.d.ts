@@ -23,3 +23,9 @@ type CurrencyDataRow = {
   continent: string;
 };
 export type CurrencyData = Record<string, CurrencyDataRow>;
+
+type CurrencyConversionData = {
+  date: Date; // ISO 8601 timestamp, converted to Date object
+  base: string;
+  rate: number;
+};

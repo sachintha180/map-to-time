@@ -1,27 +1,12 @@
-// countries.ts
+// currency.ts
 
-import { point } from "@turf/helpers";
 import type {
-  CoordinatePair,
+  CurrencyConversionData,
   CurrencyData,
   CurrencyDataRow,
-  GeoData,
 } from "./types";
-import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
-import { CC_TO_CURRENCY_URL, POINT_TO_CC_URL } from "./constants";
-
-export async function getCountryCodeFromPoint(coordinate: CoordinatePair) {
-  const response = await fetch(POINT_TO_CC_URL);
-  const json = (await response.json()) as GeoData;
-
-  const pointObj = point([coordinate.longitude, coordinate.latitude]);
-
-  for (const feature of json.features) {
-    if (booleanPointInPolygon(pointObj, feature))
-      return feature.properties?.ISO_A2 || feature.properties?.ADM0_A3;
-  }
-  return null;
-}
+import { CC_TO_CURRENCY_URL, FX_RATES_BASE_URL } from "./constants";
+import { FX_RATES_API_KEY } from "./settings";
 
 export async function fetchCctoCurrencyData(): Promise<CurrencyData> {
   const response = await fetch(CC_TO_CURRENCY_URL);
@@ -50,4 +35,27 @@ export async function fetchCctoCurrencyData(): Promise<CurrencyData> {
   );
 
   return data;
+}
+
+export async function fetchConversionRate(
+  fromCurrency: string,
+  toCurrency: string,
+  amount: number = 1
+): Promise<CurrencyConversionData> {
+  const queryString = new URLSearchParams({
+    api_key: FX_RATES_API_KEY,
+    currencies: toCurrency,
+    base: fromCurrency,
+    amount: amount.toFixed(),
+  }).toString();
+
+  const url = `${FX_RATES_BASE_URL}?${queryString}`;
+  const response = await fetch(url);
+  const data = (await response.json()) as Record<string, any>;
+
+  return {
+    date: new Date(data["date"]),
+    base: data["base"] as string,
+    rate: data["rates"][toCurrency] as number,
+  };
 }

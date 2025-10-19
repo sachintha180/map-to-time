@@ -15,3 +15,5 @@ export const POINT_TO_CC_URL = "./ne_50m_admin_0_countries.json";
 
 export const CC_TO_CURRENCY_URL = "./flat-ui__data-Sun Oct 19 2025.json";
 // source: https://datahub.io/core/country-codes
+
+export const FX_RATES_BASE_URL = "https://api.fxratesapi.com/latest";
